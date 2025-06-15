@@ -4,7 +4,7 @@ river-swww
 
 Sets [swww](https://github.com/LGFae/swww)'s wallpaper based on [river](https://codeberg.org/river/river)'s focused tags.
 
-![](https://github.com/l1na-forever/river-swww/raw/main/demo.gif)
+![Demo GIF showing wallpaper transitions](https://github.com/l1na-forever/river-swww/raw/main/demo.gif)
 
 ## Usage
 
