@@ -1,7 +1,13 @@
 [package]
 name = "river-swww"
-version = "0.1.0"
+authors = ["Lina <61861965+l1na-forever@users.noreply.github.com>"]
+version = "0.1.1"
 edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/l1na-forever/river-swww"
+description = "Sets swww's wallpaper based on river's focused tags."
+keywords = ["river", "wayland", "wallpaper", "swww", "wallpaper-changer"]
+exclude = ["*.gif"]
 
 [dependencies]
 async-channel = "2.3"
