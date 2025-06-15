@@ -2,7 +2,7 @@ river-swww
 ==========
 [![Workflow Status](https://github.com/l1na-forever/river-swww/actions/workflows/autobuild.yml/badge.svg)](https://github.com/l1na-forever/river-swww/actions) [![Crates.io Version](https://img.shields.io/crates/v/river-swww)](https://crates.io/crates/river-swww)
 
-Sets [swww](https://github.com/LGFae/swww)'s wallpaper based on river's focused tags.
+Sets [swww](https://github.com/LGFae/swww)'s wallpaper based on [river](https://codeberg.org/river/river)'s focused tags.
 
 ![](https://github.com/l1na-forever/river-swww/raw/main/demo.gif)
 
