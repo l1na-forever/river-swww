@@ -8,11 +8,11 @@ use std::{
 use async_channel::{unbounded, Receiver, Sender};
 use async_process::{Command, Stdio};
 use futures_lite::{io::BufReader, prelude::*};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use smol::{future, io, Timer};
 use smol_macros::main;
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 struct Config {
     // additional arguments for swww
     swww_args: String,
@@ -25,13 +25,42 @@ struct Config {
 }
 
 impl Config {
-    fn load() -> io::Result<Self> {
-        let config_path = PathBuf::new()
+    fn path() -> PathBuf {
+        PathBuf::new()
             .join(dirs_next::config_dir().unwrap())
-            .join("river-swww/config.json");
+            .join("river-swww/config.json")
+    }
 
-        serde_json::from_str(&fs::read_to_string(config_path)?)
+    fn load() -> io::Result<Self> {
+        serde_json::from_str(&fs::read_to_string(Self::path())?)
             .map_err(|e| io::Error::new(std::io::ErrorKind::Other, e))
+    }
+
+    fn create() -> io::Result<Self> {
+        let config = Config::default();
+        fs::write(Self::path(), serde_json::to_vec(&config)?)?;
+        Ok(config)
+    }
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        let home_dir = dirs_next::home_dir()
+            .or_else(|| Some(PathBuf::new()))
+            .unwrap();
+        let base_path = format!("{}/Pictures/Wallpapers/", home_dir.display());
+
+        let mut tags = HashMap::new();
+        for x in 1..5 {
+            tags.insert(x.to_string(), format!("{}{}.jpg", base_path, x));
+        }
+
+        Self {
+            swww_args: "--transition-type simple --transition-fps 30 --transition-step 12"
+                .to_string(),
+            default: format!("{}default.jpg", base_path),
+            tags,
+        }
     }
 }
 
@@ -207,7 +236,7 @@ main! {
     async fn main() -> std::io::Result<()> {
         let (tx, rx) = unbounded();
 
-        let config = Config::load()?;
+        let config = Config::load().or_else(|_| Config::create())?;
         let mut backend = SwwwBackend::new(&config);
 
         monitor_bedload(tx).or(backend.update_outputs(rx)).await?;
