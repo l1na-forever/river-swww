@@ -20,7 +20,7 @@ Typically, `river-swww` is added as a service that starts with `river` (for exam
 
 ## Configuration
 
-Upon first run, a configuration file with default values is generated at `~/.config/river-swww/config.toml`. After customizing the configuration, restart `river-swww`.
+Upon first run, a configuration file with default values is generated at `~/.config/river-swww/config.json`. After customizing the configuration, restart `river-swww`.
 
 The following keys will configure river-swww:
 
